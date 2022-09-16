@@ -1,5 +1,5 @@
 if [[ $# -eq 0 ]] ; then
-    echo 'some message'
+    echo 'usage: ./push-image.sh <image-tag>'
     exit 1
 fi
 
