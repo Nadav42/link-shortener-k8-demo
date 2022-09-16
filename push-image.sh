@@ -1,6 +1,6 @@
-if [ $# -eq 0 ]
-  then
-    echo "usage: ./push-image.sh <image-tag>"
+if [[ $# -eq 0 ]] ; then
+    echo 'some message'
+    exit 1
 fi
 
 git fetch
