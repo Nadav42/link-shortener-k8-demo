@@ -43,10 +43,9 @@ app.post("/api/v1/links", async (req, res) => {
 
 app.delete("/api/v1/links", async (req, res) => {
     const alias = req.body?.alias;
-    const url = req.body?.url;
     const password = req.body?.password;
 
-    if (!alias || !url) {
+    if (!alias) {
         return res.status(400).json({ msg: "missing or invalid params", params: req.body });
     }
 
