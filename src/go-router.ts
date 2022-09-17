@@ -41,7 +41,7 @@ app.post("/api/v1/links", async (req, res) => {
     res.json(transformLink(link));
 });
 
-app.delete("/api/v1/links", async (req, res) => {
+app.post("/api/v1/links/delete", async (req, res) => {
     const alias = req.body?.alias;
     const password = req.body?.password;
 
