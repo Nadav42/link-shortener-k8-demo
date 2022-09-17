@@ -53,8 +53,13 @@ app.post("/api/v1/links/delete", async (req, res) => {
         return res.status(401).json({ msg: "wrong password", params: req.body });
     }
 
-    await linkService.removeLink(alias, password);
-    res.json({ success: true });
+    const removedLink = await linkService.removeLink(alias, password);
+
+    if (!removedLink) {
+        return res.status(404).json({ msg: "link does not exist and can not be deleted" });
+    }
+
+    res.json(transformLink(removedLink));
 });
 
 app.use("/:alias", async (req, res, next) => {

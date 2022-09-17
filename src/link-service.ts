@@ -36,7 +36,9 @@ class LinkService {
             return;
         }
 
+        const linkExists = await this.getLink(alias);
         this.links = this.links.filter(link => link.alias !== alias);
+        return linkExists;
     }
 
     async verifyPassword(alias: string, password: string): Promise<boolean> {
