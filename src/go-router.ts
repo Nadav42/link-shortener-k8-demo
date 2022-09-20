@@ -6,15 +6,15 @@ const transformLink = (link?: ILink) => {
         return link
     }
 
-    return { alias: link.alias, url: link.url };
+    return { alias: link.alias, url: link.url, passwordHint: link.passwordHint };
 }
 
-app.get("/api/v1/links", async (req, res) => {
+app.get("/api/v1/go-links", async (req, res) => {
     const links = await linkService.getAllLinks();
     res.json(links.map(transformLink));
 });
 
-app.get("/api/v1/links/:alias", async (req, res) => {
+app.get("/api/v1/go-links/:alias", async (req, res) => {
     const link = await linkService.getLink(req.params.alias);
 
     if (!link) {
@@ -24,10 +24,11 @@ app.get("/api/v1/links/:alias", async (req, res) => {
     res.json(transformLink(link));
 });
 
-app.post("/api/v1/links", async (req, res) => {
+app.post("/api/v1/go-links", async (req, res) => {
     const alias = req.body?.alias;
     const url = req.body?.url;
     const password = req.body?.password;
+    const passwordHint = req.body?.passwordHint;
 
     if (!alias || !url) {
         return res.status(400).json({ msg: "missing or invalid params", params: req.body });
@@ -37,11 +38,11 @@ app.post("/api/v1/links", async (req, res) => {
         return res.status(401).json({ msg: "wrong password", params: req.body });
     }
 
-    const link = await linkService.upsertLink(alias, url, password);
+    const link = await linkService.upsertLink(alias, url, password, passwordHint);
     res.json(transformLink(link));
 });
 
-app.post("/api/v1/links/delete", async (req, res) => {
+app.post("/api/v1/go-links/delete", async (req, res) => {
     const alias = req.body?.alias;
     const password = req.body?.password;
 

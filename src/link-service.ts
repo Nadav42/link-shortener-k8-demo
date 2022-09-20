@@ -2,6 +2,7 @@ export interface ILink {
     alias: string;
     url: string;
     password?: string;
+    passwordHint?: string;
 }
 
 // using async because it's a db mock, will move to db in the future without changing the api
@@ -16,7 +17,7 @@ class LinkService {
         return this.links.find(link => link.alias === alias);
     }
 
-    async upsertLink(alias: string, url: string, password: string) {
+    async upsertLink(alias: string, url: string, password: string, passwordHint: string) {
         const linkExists = await this.getLink(alias);
 
         if (!(await this.verifyPassword(alias, password))) {
@@ -27,7 +28,7 @@ class LinkService {
             await this.removeLink(alias, password);
         }
 
-        this.links.push({ alias, url, password });
+        this.links.push({ alias, url, password, passwordHint });
         return this.getLink(alias);
     }
 
